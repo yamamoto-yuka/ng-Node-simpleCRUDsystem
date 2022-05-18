@@ -1,0 +1,9 @@
+.postText {
+    min-height: 400px;
+}
+
+th,
+td {
+    /*use this property to disbale soft wrap*/
+    white-space: nowrap;
+}

@@ -1,0 +1,28 @@
+@url = http://localhost:4400
+
+GET {{url}}/posts
+
+###
+POST {{url}}/posts
+Content-Type: application/json
+
+{
+  "post":"Testing from TEST API"
+}
+
+###
+PUT {{url}}/posts
+Content-Type: application/json
+
+{
+  "ID": 8,
+  "post": "updated"
+}
+
+###
+DELETE {{url}}/posts/9
+Content-Type:  application/json
+
+{
+  "ID":11
+}
