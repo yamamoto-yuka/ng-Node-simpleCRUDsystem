@@ -68,9 +68,9 @@ server.delete('/posts/:id', (req, res) => {
         } else {
             // res.json({ deleted: data[0][0].DEL_SUCCESS });
             if (data[0][0].DEL_SUCCESS === 0) {
-                res.json({ delete: false, message: "Data does not exist" });
+                res.json({ delete: data[0][0].DEL_SUCCESS, message: "Data does not exist" });
             } else {
-                res.json({ delete: data[0], message: "The post has been deleted." })
+                res.json({ delete: data[0][0].DEL_SUCCESS, message: "The post has been deleted." })
             }
         }
     })

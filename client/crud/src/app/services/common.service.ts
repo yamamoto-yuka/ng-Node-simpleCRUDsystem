@@ -29,7 +29,7 @@ export class CommonService {
   }
 
   deletePosts(id: number) {
-    return this.http.delete<{ delete: [], message: any }>(this.url + '/' + id);
+    return this.http.delete<{ delete: any, message: any }>(this.url + '/' + id);
   }
 
 }
