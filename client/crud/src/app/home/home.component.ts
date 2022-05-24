@@ -14,35 +14,44 @@ export class HomeComponent implements OnInit {
   showMessage = 'none';
   Messagge: any = '';
   imageformData: any;
+  imgname: string = '';
   constructor(private cs: CommonService) { }
   
   onChange(event:any) {
-    let file:File = event.target.files
-    console.log(file);
+    let file: File = event.target.files[0];
+    this.imgname = file.name;
+    console.log(file.name);
     const formData = new FormData();
     console.log(formData);
     // Append file date with name of input tag
-    formData.append('file', file);
+    formData.append('image', file);
     console.log(formData);
     this.imageformData = formData;
   }
 
   uploadImage() {
-    
+    this.cs.uploadFile(this.imageformData).subscribe(response => {
+      console.log(response);
+    } )
   }
 
   getPost() {
     this.cs.getPosts().subscribe(posts => {
       this.posts = posts.data;
-      console.log(posts.data);
+      console.log(posts);
     })
   }
 
   addPost() {
-    this.cs.addPost(this.post).subscribe(insertedPost => {
-      console.log(insertedPost);
-      this.posts.push(insertedPost.data[0]);
-      console.log(insertedPost.data[0].ID);
+    // Insert data API ( new post content, just name of this file)
+    this.cs.addPost(this.post, this.imgname).subscribe(insertedPost => {
+      // console.log(insertedPost);
+      console.log(insertedPost.data[0].thumbnail);
+      let newPost = insertedPost.data[0];
+      // Then upload the image to physical folder ( which is the "uploads" folder on server side)
+      this.cs.uploadFile(this.imageformData).subscribe(response => {
+          this.posts.unshift(newPost);
+      })
       this.showMessage = 'block';
       this.Status = insertedPost.newpost;
       this.Messagge = insertedPost;

@@ -7,8 +7,8 @@
 
     <div class="input-group mb-3">
         <!-- $event has list of methods -->
-        <input type="file" class="form-control" id="inputGroupFile02" (change)="onChange($event)" multiple name="file">
-        <label class="input-group-text" for="inputGroupFile02" (click)="uploadImage()">Upload</label>
+        <input type="file" class="form-control" id="inputGroupFile04" aria-describedby="inputGroupFileAddon04" (change)="onChange($event)" multiple name="image">
+        <button class="btn btn-outline-secondary" type="button" id="inputGroupFileAddon04" (click)="uploadImage()">Button</button>
     </div>
 
     <button (click)="addPost()" class="btn btn-primary mt-3">Post</button> &nbsp;
@@ -21,13 +21,15 @@
             <thead>
                 <tr>
                     <th scope="col">Post ID</th>
+                    <th scope="col">Thumbnail</th>
                     <th scope="col">Post</th>
                     <th scope="col">Actions</th>
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let post of posts">
+                <tr *ngFor="let post of posts; let i = index;" [class.fadein]="i===0">
                     <td>{{post.ID}}</td>
+                    <td><img [src]="'http://localhost:4400/'+ post.thumbnail" class="thumbnail"></td>
                     <td>{{post.post}}</td>
                     <td><button (click)="editPost(post.ID)" class="btn btn-success">Edit</button>&nbsp;|&nbsp;
                         <button (click)="deletePost(post.ID)" class="btn btn-danger">Delete</button>

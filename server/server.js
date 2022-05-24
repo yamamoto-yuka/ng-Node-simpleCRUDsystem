@@ -1,6 +1,7 @@
 import express from 'express';
 import cors from 'cors';
 import mysql from 'mysql';
+import multer from 'multer';
 
 const db = mysql.createConnection({
     host: "localhost",
@@ -10,14 +11,36 @@ const db = mysql.createConnection({
     database: "crud"
 })
 
-const server = express();
-server.use(cors());
-server.use(express.json());
+
 db.connect(error => {
     if (error)
         console.log('Sorry cannot connect to db: ', error);
     else
         console.log('Connected to mysql DB');
+})
+
+const storage = multer.diskStorage({
+    destination: function(req, file, cb) {
+        cb(null, './uploads')
+    },
+    filename: function(req, file, cb) {
+        cb(null, file.originalname)
+    }
+})
+
+const fileupload = multer({ storage: storage });
+
+
+const server = express();
+server.use(cors());
+server.use(express.json());
+server.use(express.static('uploads'));
+
+
+// File upload
+server.post('/upload', fileupload.single("image"), (req, res) => {
+    // console.log(req.file);
+    res.json('Upload success');
 })
 
 // GET ALL POSTS
@@ -27,15 +50,15 @@ server.get('/posts', (req, res) => {
         if (error) {
             res.json({ data: false, message: error });
         } else {
-            res.json({ data: results[0], message: "Success" });
+            res.json({ data: results[0] });
         }
     })
 })
 
 //POST NEW POST
 server.post('/posts', (req, res) => {
-    let query = "CALL `NewPost`(?)";
-    db.query(query, req.body.post, (error, newpostfromSQL) => {
+    let query = "CALL `NewPost`(?,?)";
+    db.query(query, [req.body.post, req.body.thumbnail], (error, newpostfromSQL) => {
         if (error) {
             res.json({ newpost: false, message: error });
         } else {

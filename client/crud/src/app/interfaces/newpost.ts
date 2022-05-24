@@ -4,6 +4,7 @@ export interface Newpost {
     {
       ID: number;
       post: string;
+      thumbnail: string;
     }
   ],
   message: string;

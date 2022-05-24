@@ -7,7 +7,8 @@ POST {{url}}/posts
 Content-Type: application/json
 
 {
-  "post":"Testing from TEST API"
+  "post":"Testing from TEST API",
+  "thumbnail": "image1.png"
 }
 
 ###
@@ -26,3 +27,15 @@ Content-Type:  application/json
 {
   "ID":11
 }
+
+###
+POST {{url}}/upload
+Content-Type: multipart/form-data; boundary=imageboundary
+
+--imageboundary 
+Content-Disposition: form-data; name="image"; filename="image1.jpg" 
+Content-Type: image/png
+
+< ./image1.jpg
+--imageboundary--
+

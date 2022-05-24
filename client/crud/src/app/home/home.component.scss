@@ -7,3 +7,20 @@ td {
     /*use this property to disbale soft wrap*/
     white-space: nowrap;
 }
+
+.thumbnail {
+    max-width: 100px;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.fadein {
+    animation: fadeIn 2s;
+}
